@@ -28,7 +28,7 @@ const getProducts = async () => {
     if (products.length === 0) {
       const response = await fetch("https://api.escuelajs.co/api/v1/products");
       data = await response.json();
-      products = data.slice(0, 20).map((product) => {
+      products = data.slice(1, 21).map((product) => {
         return {
           ...product,
           stock: Math.floor(Math.random() * 10),

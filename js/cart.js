@@ -43,6 +43,7 @@ const addProduct = (id) => {
           title: filteredProduct.title,
           price: filteredProduct.price,
           description: filteredProduct.description,
+          images: filteredProduct.images,
           quantity: 1,
         },
       ];
@@ -98,7 +99,7 @@ printCart = (cart, container) => {
   container.innerHTML = "";
   cart.forEach((product) => {
     cardItem += `<div class="d-flex align-items-center border-bottom py-3">
-      <img src="https://via.placeholder.com/50" alt="${
+      <img src="${product.images[0]}" width="50" alt="${
         product.title
       }" class="rounded">
       <div class="flex-grow-1 ms-3">
