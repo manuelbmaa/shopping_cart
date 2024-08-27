@@ -61,29 +61,37 @@ const deleteProduct = (id) => {
   const cart = JSON.parse(localStorage.getItem("cart"));
   const products = JSON.parse(localStorage.getItem("products"));
 
-  const newProducts = products.map((product) =>
-    product.id == id
-      ? {
-          ...product,
-          stock: product.stock + cart.find((p) => p.id == id).quantity,
-        }
-      : product
-  );
+  showConfirm(
+    "¿Está seguro/a del eliminar el producto?",
+    "No podrás deshacer esta acción",
+    "Eliminar"
+  ).then((result) => {
+    if (result.isConfirmed) {
+      const newProducts = products.map((product) =>
+        product.id == id
+          ? {
+              ...product,
+              stock: product.stock + cart.find((p) => p.id == id).quantity,
+            }
+          : product
+      );
 
-  const newCart = cart.filter((product) => product.id != id);
+      const newCart = cart.filter((product) => product.id != id);
 
-  localStorage.setItem("products", JSON.stringify(newProducts));
-  localStorage.setItem("cart", JSON.stringify(newCart));
+      localStorage.setItem("products", JSON.stringify(newProducts));
+      localStorage.setItem("cart", JSON.stringify(newCart));
 
-  showAlert(
-    "¡Éxito!",
-    "Producto eliminado del carrito",
-    "success",
-    "Continuar en el carrito"
-  ).then(() => {
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
+      showAlert(
+        "¡Éxito!",
+        "Producto eliminado del carrito",
+        "success",
+        "Continuar en el carrito"
+      ).then(() => {
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
+      });
+    }
   });
 };
 

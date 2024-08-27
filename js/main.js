@@ -17,9 +17,25 @@ const formatDescription = (description) => {
 const showAlert = (title, text, icon, textButton = "Seguir comprando") => {
   return Swal.fire({
     position: "center",
-    icon,
     title,
     text,
+    icon,
+    confirmButtonColor: "#3085d6",
     confirmButtonText: textButton,
+  });
+};
+
+// Alerta de confirmación
+const showConfirm = (title, text, confirmButtonText = "Aceptar") => {
+  return Swal.fire({
+    position: "center",
+    title,
+    text,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText,
+    cancelButtonText: "Cancelar",
   });
 };
