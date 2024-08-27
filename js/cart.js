@@ -87,6 +87,35 @@ const deleteProduct = (id) => {
   });
 };
 
+// Vaciar carrito
+const clearCart = () => {
+  const cart = JSON.parse(localStorage.getItem("cart"));
+  const products = JSON.parse(localStorage.getItem("products"));
+
+  const newProducts = products.map((product) =>
+    cart.find((p) => p.id == product.id)
+      ? {
+          ...product,
+          stock: product.stock + cart.find((p) => p.id == product.id).quantity,
+        }
+      : product
+  );
+
+  localStorage.setItem("products", JSON.stringify(newProducts));
+  localStorage.setItem("cart", JSON.stringify([]));
+
+  showAlert(
+    "¡Éxito!",
+    "Carrito vaciado correctamente",
+    "success",
+    "Continuar comprando"
+  ).then(() => {
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
+  });
+};
+
 // Imprimir productos en el carrito
 printCart = (cart, container) => {
   const quantityItems = document.getElementById("quantity-items");
@@ -100,8 +129,8 @@ printCart = (cart, container) => {
   cart.forEach((product) => {
     cardItem += `<div class="d-flex align-items-center border-bottom py-3">
       <img src="${product.images[0]}" width="50" alt="${
-        product.title
-      }" class="rounded">
+      product.title
+    }" class="rounded">
       <div class="flex-grow-1 ms-3">
         <h6 class="mb-0">${product.title}</h6>
         <small class="text-muted">${formatDescription(
