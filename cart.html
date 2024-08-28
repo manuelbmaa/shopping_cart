@@ -66,20 +66,20 @@
             </div>
             <div class="mb-3">
               <label for="cardholderName" class="form-label">Nombre del Titular de la Tarjeta</label>
-              <input type="text" class="form-control" id="cardholderName" placeholder="John Doe">
+              <input type="text" class="form-control" id="cardholderName" placeholder="John Doe" required>
             </div>
             <div class="mb-3">
               <label for="cardNumber" class="form-label">Número de Tarjeta</label>
-              <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456">
+              <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" required pattern="\d{4}\s\d{4}\s\d{4}\s\d{4}">
             </div>
             <div class="row">
               <div class="col-md-6">
                 <label for="expiration" class="form-label">Vencimiento</label>
-                <input type="text" class="form-control" id="expiration" placeholder="MM/YY">
+                <input type="text" class="form-control" id="expiration" placeholder="MM/YY" required pattern="\d{2}/\d{2}">
               </div>
               <div class="col-md-6">
                 <label for="cvv" class="form-label">CVV</label>
-                <input type="text" class="form-control" id="cvv" placeholder="123">
+                <input type="" class="form-control" id="cvv" placeholder="123" required pattern="\d{3}">
               </div>
             </div>
             <div class="mt-4">
