@@ -127,23 +127,35 @@ const clearCart = () => {
 // Imprimir productos en el carrito
 printCart = (cart, container) => {
   const quantityItems = document.getElementById("quantity-items");
+  const subtotalElement = document.getElementById("subtotal");
+  const totalElement = document.getElementById("total");
+  const shippingCost = 20.00; // Costo de envío fijo
 
-  quantityItems.innerHTML = `Tienes ${cart.reduce(
-    (acc, product) => acc + product.quantity,
-    0
-  )} items en tu carrito`;
+  if (cart.length > 0) {
+    const totalItems = cart.reduce((acc, product) => acc + product.quantity, 0);
+    quantityItems.innerHTML = `Tienes ${totalItems} item${totalItems > 1 ? 's' : ''} en tu carrito`;
+
+    // Calcular subtotal
+    const subtotal = cart.reduce((acc, product) => acc + product.price * product.quantity, 0);
+    subtotalElement.innerText = `$${subtotal.toFixed(2)}`;
+
+    // Calcular total (subtotal + envío)
+    const total = subtotal + shippingCost;
+    totalElement.innerText = `$${total.toFixed(2)}`;
+  } else {
+    quantityItems.innerHTML = "Tu carrito está vacío";
+    subtotalElement.innerText = `$0.00`;
+    totalElement.innerText = `$${shippingCost.toFixed(2)}`;
+  }
+
   let cardItem = "";
   container.innerHTML = "";
   cart.forEach((product) => {
     cardItem += `<div class="d-flex align-items-center border-bottom py-3">
-      <img src="${product.images[0]}" width="50" alt="${
-      product.title
-    }" class="rounded">
+      <img src="${product.images[0]}" width="50" alt="${product.title}" class="rounded">
       <div class="flex-grow-1 ms-3">
         <h6 class="mb-0">${product.title}</h6>
-        <small class="text-muted">${formatDescription(
-          product.description
-        )}</small>
+        <small class="text-muted">${formatDescription(product.description)}</small>
       </div>
       <div class="text-center" style="width: 50px;">
         <span>${product.quantity}</span>
@@ -151,10 +163,16 @@ printCart = (cart, container) => {
       <div class="text-end" style="width: 100px;">
         <span>${formatTotal(product.price * product.quantity)}</span>
       </div>
-      <i data-id="${
-        product.id
-      }" id="btn-delete-product" class="bi bi-trash text-danger ms-3" style="cursor: pointer;"></i>
+      <i data-id="${product.id}" id="btn-delete-product" class="bi bi-trash text-danger ms-3" style="cursor: pointer;"></i>
     </div>`;
   });
   container.innerHTML = cardItem;
+
+  // Re-agrega los event listeners para eliminar productos
+  document.querySelectorAll("#btn-delete-product").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const id = e.target.getAttribute("data-id");
+      deleteProduct(id);
+    });
+  });
 };
