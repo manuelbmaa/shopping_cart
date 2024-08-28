@@ -22,11 +22,24 @@ const showAlert = (title, text, icon, textButton = "Seguir comprando") => {
     icon,
     confirmButtonColor: "#3085d6",
     confirmButtonText: textButton,
+    allowOutsideClick: false,
+  });
+};
+
+const showAlertHtml = (title, html, icon, textButton = "Entendido") => {
+  return Swal.fire({
+    position: "center",
+    title,
+    html,
+    icon,
+    confirmButtonColor: "#3085d6",
+    confirmButtonText: textButton,
+    allowOutsideClick: false,
   });
 };
 
 // Alerta de confirmación
-const showConfirm = (title, text, confirmButtonText = "Aceptar") => {
+const showAlertConfirm = (title, text, confirmButtonText = "Aceptar") => {
   return Swal.fire({
     position: "center",
     title,
@@ -37,5 +50,35 @@ const showConfirm = (title, text, confirmButtonText = "Aceptar") => {
     cancelButtonColor: "#d33",
     confirmButtonText,
     cancelButtonText: "Cancelar",
+    allowOutsideClick: false,
   });
+};
+
+// Alerta cargando
+const showAlertLoading = (title = "Procesando") => {
+  let timerInterval;
+  return Swal.fire({
+    title,
+    timer: 2000,
+    timerProgressBar: true,
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+      const timer = Swal.getPopup().querySelector("b");
+      timerInterval = setInterval(() => {
+        timer.textContent = `${Swal.getTimerLeft()}`;
+      }, 100);
+    },
+    willClose: () => {
+      clearInterval(timerInterval);
+    },
+  });
+};
+
+// Validar tajea de crédito o débito
+const validateCreditCard = (card) => {
+  const creditCard = card.replace(/ /g, "");
+  const regex =
+    /^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13}|6(?:011|5[0-9][0-9])[0-9]{12})$/;
+  return regex.test(creditCard);
 };
