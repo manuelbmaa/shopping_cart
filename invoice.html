@@ -7,7 +7,7 @@
     <title>Factura</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Call CSS files -->
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/invoice.css">
 </head>
 
@@ -16,10 +16,12 @@
         <div class="row d-flex justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="text-left logo p-2 px-5"> <img src="img/invoice.png" width="40"> </div>
+                    <div class="text-left logo p-2 px-5">
+                        <img src="img/invoice.png" width="40">
+                    </div>
                     <div class="invoice p-5">
                         <h5>Orden confirmada!</h5>
-                        <span>A continuación podrás ver a detalle tu factura: </span>
+                        <span>A continuación podrás ver a detalle tu factura:</span>
                         <div class="payment border-top mt-3 mb-3 border-bottom table-responsive">
                             <table class="table table-borderless">
                                 <tbody>
@@ -27,26 +29,24 @@
                                         <td>
                                             <div class="py-2">
                                                 <span class="d-block text-muted">Fecha de compra</span>
-                                                <span>date</span>
+                                                <span id="invoice-date"></span>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="py-2">
                                                 <span class="d-block text-muted">Orden N.</span>
-                                                <span>MT12332345</span>
+                                                <span id="order-number"></span>
                                             </div>
                                         </td>
                                         <td>
-                                            <div class="py-2"> <span class="d-block text-muted">Pago</span>
-                                                <span>
-                                                    <img src="https://img.icons8.com/color/48/000000/mastercard.png"
-                                                        width="20" />
-                                                </span>
+                                            <div class="py-2">
+                                                <span class="d-block text-muted">Pago</span>
+                                                <span id="payment-method"></span>
                                             </div>
                                         </td>
                                         <td>
-                                            <div class="py-2"> <span class="d-block text-muted">Tiempo estimado de
-                                                    entrega</span>
+                                            <div class="py-2">
+                                                <span class="d-block text-muted">Tiempo estimado de entrega</span>
                                                 <span>5-7 días hábiles</span>
                                             </div>
                                         </td>
@@ -55,32 +55,9 @@
                             </table>
                         </div>
                         <div class="product border-bottom table-responsive">
-                            <table class="table table-borderless">
+                            <table class="table table-borderless" id="product-table">
                                 <tbody>
-                                    <tr>
-                                        <td width="20%"> <img src="https://via.placeholder.com/50" width="90"> </td>
-                                        <td width="60%"> <span class="font-weight-bold">Product 1</span>
-                                            <div class="product-qty">
-                                                <span class="d-block">Cantidad: 1</span>
-                                            </div>
-                                        </td>
-                                        <td width="20%">
-                                            <div class="text-right">
-                                                <span class="font-weight-bold">$67.50</span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="20%"> <img src="https://via.placeholder.com/50" width="90"> </td>
-                                        <td width="60%"> <span class="font-weight-bold">Product 2</span>
-                                            <div class="product-qty">
-                                                <span class="d-block">Cantidad: 1</span>
-                                            </div>
-                                        </td>
-                                        <td width="20%">
-                                            <div class="text-right"> <span class="font-weight-bold">$77.50</span> </div>
-                                        </td>
-                                    </tr>
+                                    <!-- Los productos se llenarán aquí con JavaScript -->
                                 </tbody>
                             </table>
                         </div>
@@ -90,36 +67,49 @@
                                     <tbody class="totals">
                                         <tr>
                                             <td>
-                                                <div class="text-left"> <span class="text-muted">Subtotal</span> </div>
-                                            </td>
-                                            <td>
-                                                <div class="text-right"> <span>$168.50</span> </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="text-left"> <span class="text-muted">Tarifa de envío</span>
+                                                <div class="text-left">
+                                                    <span class="text-muted">Subtotal</span>
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="text-right"> <span>$22</span> </div>
+                                                <div class="text-right">
+                                                    <span id="subtotal"></span>
+                                                </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <div class="text-left"> <span class="text-muted">IVA</span> </div>
+                                                <div class="text-left">
+                                                    <span class="text-muted">Tarifa de envío</span>
+                                                </div>
                                             </td>
                                             <td>
-                                                <div class="text-right"> <span>$7.65</span> </div>
+                                                <div class="text-right">
+                                                    <span id="shipping"></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="text-left">
+                                                    <span class="text-muted">IVA 13%</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="text-right">
+                                                    <span id="tax"></span>
+                                                </div>
                                             </td>
                                         </tr>
                                         <tr class="border-top border-bottom">
                                             <td>
-                                                <div class="text-left"> <span class="font-weight-bold">Total</span>
+                                                <div class="text-left">
+                                                    <span class="font-weight-bold">Total</span>
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="text-right"> <span class="font-weight-bold">$238.50</span>
+                                                <div class="text-right">
+                                                    <span class="font-weight-bold" id="total"></span>
                                                 </div>
                                             </td>
                                         </tr>
@@ -127,20 +117,19 @@
                                 </table>
                             </div>
                         </div>
-                        <p>¡Enviaremos el correo electrónico de confirmación de envío cuando el artículo se envíe con
-                            éxito!</p>
+                        <p>¡Enviaremos el correo electrónico de confirmación de envío cuando el artículo se envíe con éxito!</p>
                         <p class="font-weight-bold mb-0">¡Gracias por comprar con nosotros!</p>
                     </div>
                     <div class="d-flex justify-content-between footer p-3">
-                        <span>
-                            Visítenos nuevamente <a href="index.html">click acá</a>
-                        </span>
+                        <span>Visítenos nuevamente <a href="index.html" id="reset-cart">click acá</a></span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/invoice.js"></script>
 </body>
 
 </html>
