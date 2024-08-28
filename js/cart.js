@@ -94,7 +94,14 @@ const validatePaymentForm = () => {
     // Usar SweetAlert para confirmar el procesamiento del pago
     showAlertLoading().then(() => {
       // Redirigir a invoice.html después de que se haya confirmado el formulario
-      window.location.href = "invoice.html";
+      showAlert(
+        "¡Éxito!",
+        "Pago procesado correctamente",
+        "success",
+        "Ir a la factura"
+      ).then(() => {
+        window.location.href = "invoice.html";
+      });
     });
   }
 };
