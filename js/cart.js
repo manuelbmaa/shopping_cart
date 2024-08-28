@@ -16,7 +16,80 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
+
+  // Agregar validación al formulario de pago
+  const checkoutButton = document.querySelector(".btn-info");
+  if (checkoutButton) {
+    checkoutButton.addEventListener("click", (e) => {
+      e.preventDefault(); // Prevenir que el formulario se envíe automáticamente
+      validatePaymentForm();
+    });
+  }
+
 });
+
+
+// Validar formulario de pago
+const validatePaymentForm = () => {
+  const cardholderName = document.getElementById("cardholderName").value.trim();
+  const cardNumber = document.getElementById("cardNumber").value.trim();
+  const expiration = document.getElementById("expiration").value.trim();
+  const cvv = document.getElementById("cvv").value.trim();
+
+  let isValid = true;
+  let errorMessage = "";
+
+  if (!cardholderName) {
+    isValid = false;
+    errorMessage += "El nombre del titular de la tarjeta es obligatorio.<br>";
+  }
+
+  if (!cardNumber) {
+    isValid = false;
+    errorMessage += "El número de tarjeta es obligatorio.<br>";
+  } else if (!/^\d{4}\s\d{4}\s\d{4}\s\d{4}$/.test(cardNumber)) {
+    isValid = false;
+    errorMessage += "El número de tarjeta debe tener el formato 1234 5678 9012 3456.<br>";
+  }
+
+  if (!expiration) {
+    isValid = false;
+    errorMessage += "La fecha de vencimiento es obligatoria.<br>";
+  } else if (!/^\d{2}\/\d{2}$/.test(expiration)) {
+    isValid = false;
+    errorMessage += "La fecha de vencimiento debe tener el formato MM/YY.<br>";
+  }
+
+  if (!cvv) {
+    isValid = false;
+    errorMessage += "El CVV es obligatorio.<br>";
+  } else if (!/^\d{3}$/.test(cvv)) {
+    isValid = false;
+    errorMessage += "El CVV debe tener 3 dígitos.<br>";
+  }
+
+  if (!isValid) {
+    // Usar SweetAlert para mostrar el mensaje de error
+    Swal.fire({
+      icon: 'error',
+      title: 'Error en el formulario',
+      html: errorMessage
+    });
+  } else {
+    // Usar SweetAlert para confirmar el procesamiento del pago
+    Swal.fire({
+      icon: 'success',
+      title: 'Formulario válido',
+      text: 'Procesando el pago...',
+      showConfirmButton: false,
+      timer: 2000
+    }).then(() => {
+      // Redirigir a invoice.html después de que se haya confirmado el formulario
+      window.location.href = "invoice.html";
+    });
+  }
+};
+
 
 // Agregar productos al carrito
 const addProduct = (id) => {
