@@ -309,7 +309,7 @@ const importMasks = () => {
   IMask(cvv, {
     mask: "000",
     definitions: {
-      0: /[1-9]/,
+      0: /[0-9]/,
     },
     lazy: false,
     placeholderChar: "#",
